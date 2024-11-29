@@ -1,23 +1,22 @@
-'use strict';
-var request = require('request');
+import fetch from 'node-fetch';
 
-require('dotenv').config();
+const url = "https://www.nseindia.com/api/master-quote";
 
-// replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-// var url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=reliance&apikey=${process.env.API_KEY}`;
-var url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=BAJAJFINSV.BSE&apikey=${process.env.API_KEY}`;
+(async () => {
+    const response = await fetch(url, {
+        headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36",
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": "https://www.nseindia.com/"
+        }
+    });
 
-request.get({
-    url: url,
-    json: true,
-    headers: {'User-Agent': 'request'}
-  }, (err, res, data) => {
-    if (err) {
-      console.log('Error:', err);
-    } else if (res.statusCode !== 200) {
-      console.log('Status:', res.statusCode);
-    } else {
-      // data is successfully parsed as a JSON object:
-      console.log(data);
+    if (!response.ok) {
+        console.error("Failed to fetch:", response.status, response.statusText);
+        return;
     }
-});
+
+    const data = await response.json();
+    console.log(data);
+})();
