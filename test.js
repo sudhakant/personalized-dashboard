@@ -1,14 +1,41 @@
-// require syntax (if your code base does not support imports)
-const yahooFinance = require('yahoo-finance2').default; // NOTE the .default
+'use strict';
 
-// const results = yahooFinance.search('AAPL').then((data) => {
-//     console.log(data);
+require('dotenv').config();
+
+var request = require('request');
+
+// replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+// var url = `https://www.alphavantage.co/query?function=HISTORICAL_OPTIONS&symbol=IBM&apikey=${process.env.API_KEY}`;
+
+// request.get({
+//     url: url,
+//     json: true,
+//     headers: {'User-Agent': 'request'}
+//   }, (err, res, data) => {
+//     if (err) {
+//       console.log('Error:', err);
+//     } else if (res.statusCode !== 200) {
+//       console.log('Status:', res.statusCode);
+//     } else {
+//       // data is successfully parsed as a JSON object:
+//       console.log(data);
+//     }
 // });
-// const results = await yahooFinance.search('AAPL', { someOption: true, etc });
-// console.log(results);
 
-const quote = yahooFinance.quote('RELIANCE.NS').then((quote) => {
-    // console.log(quote);
-    const { regularMarketPrice: price, currency } = quote;
-    console.log(price, currency);
+// replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+var url = `https://www.alphavantage.co/query?function=ATR&symbol=IBM&interval=daily&time_period=14&apikey=${process.env.API_KEY}`;
+
+request.get({
+    url: url,
+    json: true,
+    headers: {'User-Agent': 'request'}
+  }, (err, res, data) => {
+    if (err) {
+      console.log('Error:', err);
+    } else if (res.statusCode !== 200) {
+      console.log('Status:', res.statusCode);
+    } else {
+      // data is successfully parsed as a JSON object:
+      console.log(data);
+    }
 });
